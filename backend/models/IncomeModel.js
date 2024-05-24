@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
-const db = require('../db/db');
-const {Schema} = mongoose;
 
 
-const IncomeSchema = new Schema({
+const IncomeSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -38,5 +36,4 @@ const IncomeSchema = new Schema({
     },
 }, {timestamps: true})
 
-const IncomeModel = db.model('income', IncomeSchema);
-module.exports = IncomeModel;
+module.exports = mongoose.model('Income', IncomeSchema)

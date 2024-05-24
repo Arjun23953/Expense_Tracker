@@ -23,7 +23,7 @@ exports.addExpense = async (req, res) => {
         await income.save()
         res.status(200).json({message: 'Expense Added'})
     } catch (error) {
-        return next(error);
+        res.status(500).json({message: 'Server Error'})
     }
 
     console.log(income)
@@ -34,7 +34,7 @@ exports.getExpense = async (req, res) =>{
         const incomes = await ExpenseSchema.find().sort({createdAt: -1})
         res.status(200).json(incomes)
     } catch (error) {
-        return next(error);
+        res.status(500).json({message: 'Server Error'})
     }
 }
 
@@ -45,6 +45,6 @@ exports.deleteExpense = async (req, res) =>{
             res.status(200).json({message: 'Expense Deleted'})
         })
         .catch((err) =>{
-            return next(error);
+            res.status(500).json({message: 'Server Error'})
         })
 }

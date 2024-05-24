@@ -1,15 +1,25 @@
-const express = require('express');
-const body_parser = require('body-parser');
-const transactionRoute = require('./routes/transactions');
-const authRoute = require('./routes/auth');
-const errorHandler = require('./utils/errorHandler');
+const express = require('express')
+const cors = require('cors');
+const { db } = require('./db/db');
+const {readdirSync} = require('fs')
+const app = express()
 
-const app = express();
-app.use(body_parser.json());
+require('dotenv').config()
 
-app.use('/api/transactions', transactionRoute);
-app.use('/api/auth', authRoute);
+const PORT = process.env.PORT
 
-app.use(errorHandler);
+//middlewares
+app.use(express.json())
+app.use(cors())
 
-module.exports = app;
+//routes
+readdirSync('./routes').map((route) => app.use('/api/v1', require('./routes/' + route)))
+
+const server = () => {
+    db()
+    app.listen(PORT, () => {
+        console.log('listening to port:', PORT)
+    })
+}
+
+server()
